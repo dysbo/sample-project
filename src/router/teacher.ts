@@ -1,5 +1,7 @@
 import { Request, Response, Router } from 'express'
-import { createTeacher, getTeacher, listTeachers } from '../service'
+import { createTeacher, getTeacher, listTeachers, deleteTeacher } from '../service'
+import {logger} from "../common";
+
 
 const teacherRouter = Router()
 
@@ -24,7 +26,17 @@ teacherRouter.put('/:teacherId', async (req: Request, res: Response) => {
 })
 
 teacherRouter.delete('/:teacherId', async (req: Request, res: Response) => {
-  res.sendStatus(501)
+  const id = parseInt(req.params.teacherId)
+
+  try {
+    const isDeleted = await deleteTeacher(id)
+
+    res.status(200).send(isDeleted)
+  } catch(e: any) {
+    logger.error(e.message)
+
+    res.sendStatus(404)
+  }
 })
 
 export default teacherRouter
