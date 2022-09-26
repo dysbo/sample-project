@@ -22,3 +22,13 @@ export const getTeacher = async (teacherId: number): Promise<TeacherDto | null> 
 
   return teacherTransformer.toDataTransferObject(teacher)
 }
+
+export const deleteTeacher = async (teacherId: number): Promise<boolean> => {
+  const teacher = await TeacherDao.getById(teacherId);
+
+  if(!teacher) {
+    throw Error("No teacher found.")
+  }
+
+  return await TeacherDao.deleteTeacher(teacherId);
+}

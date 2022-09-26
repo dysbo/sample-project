@@ -1,5 +1,6 @@
 import { valueOrUndefined } from '../../common'
 import TeacherModel, { Salutation } from '../models/TeacherModel'
+import teacherModel from "../models/TeacherModel";
 
 export interface TeacherDaoProperties {
   firstName: string
@@ -44,6 +45,16 @@ class TeacherDao implements TeacherDaoProperties {
   static async getAll(): Promise<Array<TeacherDao>> {
     const models = await TeacherModel.findAll()
     return models.map(model => new TeacherDao(model))
+  }
+
+  static async deleteTeacher(teacherId: number): Promise<boolean> {
+     await TeacherModel.destroy({
+       where: {
+         id: teacherId,
+       }
+     })
+
+    return await teacherModel.findByPk(teacherId) === null;
   }
 }
 
