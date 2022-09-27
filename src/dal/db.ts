@@ -2,7 +2,7 @@ import path from 'path'
 import { QueryInterface } from 'sequelize'
 import { Sequelize } from 'sequelize-typescript'
 import { MigrationMeta, SequelizeStorage, Umzug } from 'umzug'
-import { logger } from '../common'
+import { config, logger } from '../common'
 
 export type MigrationParams = {
   context: {
@@ -13,8 +13,13 @@ export type MigrationParams = {
 }
 
 const database = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.resolve(process.cwd(), 'db.sqlite'),
+  dialect: 'mysql',
+  // storage: path.resolve(process.cwd(), 'db.sqlite'),
+  host: config.DB_HOST,
+  port: config.DB_PORT,
+  database: config.DB_DATABASE,
+  password: config.DB_PASSWORD,
+  username: config.DB_USER,
   models: [path.resolve(process.cwd(), 'src', 'dal', 'models', '*Model.*')],
   logging: false
 })
