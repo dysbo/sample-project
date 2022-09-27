@@ -1,5 +1,5 @@
 import { valueOrUndefined } from '../common'
-import { Salutation } from '../dal/models/TeacherModel'
+import { Salutation } from '../dal/models'
 
 interface TeacherDtoProperties {
   firstName: string

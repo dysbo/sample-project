@@ -15,7 +15,7 @@ export type MigrationParams = {
 const database = new Sequelize({
   dialect: 'sqlite',
   storage: path.resolve(process.cwd(), 'db.sqlite'),
-  models: [path.resolve(process.cwd(), 'src', 'dal', 'models')],
+  models: [path.resolve(process.cwd(), 'src', 'dal', 'models', '*Model.*')],
   logging: false
 })
 

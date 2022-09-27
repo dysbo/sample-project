@@ -1,21 +1,22 @@
-import { TeacherDao } from '../dal/dao'
+import { TeacherRepository } from '../dal/repository'
 import { TeacherDto } from '../dto'
 import { TeacherTransformer } from '../transform/TeacherTransformer'
 
 const teacherTransformer = new TeacherTransformer()
+const teacherRepository = new TeacherRepository()
 
 export const listTeachers = async (): Promise<Array<TeacherDto>> => {
-  const teachers = await TeacherDao.getAll()
+  const teachers = await teacherRepository.getAll()
   return teachers.map(teacherDao => teacherTransformer.toDataTransferObject(teacherDao))
 }
 
 export const createTeacher = async (dto: TeacherDto): Promise<TeacherDto> => {
-  const teacher = await TeacherDao.create(dto)
+  const teacher = await teacherRepository.create(dto)
   return teacherTransformer.toDataTransferObject(teacher)
 }
 
 export const getTeacher = async (teacherId: number): Promise<TeacherDto | null> => {
-  const teacher = await TeacherDao.getById(teacherId)
+  const teacher = await teacherRepository.getById(teacherId)
   if (!teacher) {
     return null
   }
@@ -24,11 +25,11 @@ export const getTeacher = async (teacherId: number): Promise<TeacherDto | null> 
 }
 
 export const deleteTeacher = async (teacherId: number): Promise<boolean> => {
-  const teacher = await TeacherDao.getById(teacherId);
+  const teacher = await teacherRepository.getById(teacherId)
 
-  if(!teacher) {
-    throw Error("No teacher found.")
+  if (!teacher) {
+    throw Error('No teacher found.')
   }
 
-  return await TeacherDao.deleteTeacher(teacherId);
+  return await teacherRepository.destroy(teacherId)
 }

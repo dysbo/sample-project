@@ -1,6 +1,5 @@
 import { valueOrUndefined } from '../../common'
-import TeacherModel, { Salutation } from '../models/TeacherModel'
-import teacherModel from "../models/TeacherModel";
+import { Salutation } from '../models'
 
 export interface TeacherDaoProperties {
   firstName: string
@@ -19,42 +18,13 @@ class TeacherDao implements TeacherDaoProperties {
   createdAt?: string
   updatedAt?: string
 
-  constructor(data: TeacherDaoProperties) {
+  constructor (data: TeacherDaoProperties) {
     this.id = valueOrUndefined(data.id)
     this.firstName = data.firstName
     this.lastName = data.lastName
     this.salutation = valueOrUndefined(data.salutation)
     this.createdAt = valueOrUndefined(data.createdAt)
     this.updatedAt = valueOrUndefined(data.updatedAt)
-  }
-
-  static async create(data: TeacherDaoProperties): Promise<TeacherDao> {
-    const model = await TeacherModel.create(data)
-    return new TeacherDao(model)
-  }
-
-  static async getById(id: number): Promise<TeacherDao | null> {
-    const model = await TeacherModel.findByPk(id)
-    if (model) {
-      return new TeacherDao(model)
-    }
-
-    return null
-  }
-
-  static async getAll(): Promise<Array<TeacherDao>> {
-    const models = await TeacherModel.findAll()
-    return models.map(model => new TeacherDao(model))
-  }
-
-  static async deleteTeacher(teacherId: number): Promise<boolean> {
-     await TeacherModel.destroy({
-       where: {
-         id: teacherId,
-       }
-     })
-
-    return await teacherModel.findByPk(teacherId) === null;
   }
 }
 

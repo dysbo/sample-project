@@ -20,7 +20,7 @@ interface TeacherModelCreationProperties extends Optional<TeacherModelProperties
 }
 
 @Table({ tableName: 'teacher' })
-class TeacherModel extends Model<TeacherModelProperties, TeacherModelCreationProperties> {
+export class TeacherModel extends Model<TeacherModelProperties, TeacherModelCreationProperties> {
   @Column(DataTypes.STRING)
   firstName: string
 
@@ -31,5 +31,3 @@ class TeacherModel extends Model<TeacherModelProperties, TeacherModelCreationPro
   @Column(DataTypes.ENUM({ values: Object.values(Salutation) }))
   salutation: Salutation
 }
-
-export default TeacherModel
