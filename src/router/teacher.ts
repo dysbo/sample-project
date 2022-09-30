@@ -24,7 +24,7 @@ teacherRouter.put('/', async (req: Request, res: Response) => {
 teacherRouter.put('/:teacherId', async (req: Request, res: Response) => {
   const id = parseInt(req.params.teacherId)
 
-  if (!id) {
+  if (id !== req.body.id) {
     return res.sendStatus(422)
   }
 
@@ -37,7 +37,7 @@ teacherRouter.put('/:teacherId', async (req: Request, res: Response) => {
 
     await updateTeacher(id, teacherUpdate)
 
-    return res.sendStatus(200).json(teacherUpdate)
+    return res.sendStatus(200).send(teacherUpdate)
 })
 
 teacherRouter.delete('/:teacherId', async (req: Request, res: Response) => {
