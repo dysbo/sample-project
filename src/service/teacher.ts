@@ -34,12 +34,14 @@ export const deleteTeacher = async (teacherId: number): Promise<boolean> => {
   return await teacherRepository.destroy(teacherId)
 }
 
-export const updateTeacher = async (teacherId: number, teacherUpdate: any): Promise<void> => {
+export const updateTeacher = async (teacherId: number, teacherUpdate: any): Promise<TeacherDto> => {
   const teacher = await teacherRepository.getById(teacherId)
 
   if(!teacher) {
     throw Error("No teacher found.")
   }
 
-  await teacher?.update(teacherUpdate)
+  const teacherToUpdate = await teacherRepository.update(teacherId, teacherUpdate)
+
+  return teacherTransformer.toDataTransferObject(teacherToUpdate)
 }

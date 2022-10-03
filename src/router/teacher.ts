@@ -35,9 +35,9 @@ teacherRouter.put('/:teacherId', async (req: Request, res: Response) => {
       salutation: req.body.salutation
     }
 
-    await updateTeacher(id, teacherUpdate)
+    const updatedTeacher = await updateTeacher(id, teacherUpdate)
 
-    return res.sendStatus(200).send(teacherUpdate)
+    return res.status(200).send(updatedTeacher)
 })
 
 teacherRouter.delete('/:teacherId', async (req: Request, res: Response) => {
