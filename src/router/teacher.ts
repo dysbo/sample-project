@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { createTeacher, getTeacher, listTeachers, deleteTeacher } from '../service'
+import {createTeacher, getTeacher, listTeachers, deleteTeacher, updateTeacher} from '../service'
 import {logger} from "../common";
 
 
@@ -22,7 +22,22 @@ teacherRouter.put('/', async (req: Request, res: Response) => {
 })
 
 teacherRouter.put('/:teacherId', async (req: Request, res: Response) => {
-  res.sendStatus(501)
+  const id = parseInt(req.params.teacherId)
+
+  if (id !== req.body.id) {
+    return res.sendStatus(422)
+  }
+
+    const teacherUpdate = {
+      id,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      salutation: req.body.salutation
+    }
+
+    const updatedTeacher = await updateTeacher(id, teacherUpdate)
+
+    return res.status(200).send(updatedTeacher)
 })
 
 teacherRouter.delete('/:teacherId', async (req: Request, res: Response) => {

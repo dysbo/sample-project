@@ -9,6 +9,8 @@ export interface Repository<M extends Model> {
   getAll (): Promise<Array<M>>
 
   getById (id: number): Promise<M | null>
+
+  update (id: number, model: M): Promise<M>
 }
 
 export abstract class BaseRepository<M extends Model> implements Repository<M> {
@@ -36,5 +38,15 @@ export abstract class BaseRepository<M extends Model> implements Repository<M> {
     })
 
     return destroyed === 1
+  }
+
+  async update(id: number, model: M): Promise<M> {
+    const modelToUpdate = await this.repository.findByPk(id)
+
+    if(!modelToUpdate) {
+      throw Error("Model does not exist. ")
+    }
+
+    return modelToUpdate.update(model)
   }
 }
